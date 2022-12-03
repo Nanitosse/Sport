@@ -1,15 +1,25 @@
 // import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import Main from "./screen/MainComponent";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,DefaultTheme } from '@react-navigation/native';
 
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Main/>
+    <ImageBackground
+      source={require('./assets/images/soccer.png')}
+      style={{
+        flex: 1,
+        // resizeMode:'cover',
+        justifyContent: 'center',
 
-    </View>
+      }}
+
+    >
+      <NavigationContainer theme={MyTheme}>
+        <Main />
+      </NavigationContainer>
+    </ImageBackground>
 
   );
 }
@@ -23,21 +33,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  // text: {
-  //   backgroundColor: 'black',
-  //   textAlign: 'center',
-  //   alignItems: "center"
+  text: {
+    backgroundColor: 'black',
+    textAlign: 'center',
+    alignItems: "center"
 
-  // },
+  },
 
 
 });
 
-// const MyTheme = {
-//   ...DefaultTheme,
-//   colors: {
-//     ...DefaultTheme.colors,
-//     primary: 'rgb(255, 45, 85)',
-//     background: 'transparent',
-//   },
-// };
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'rgb(255, 45, 85)',
+    background: 'transparent',
+  },
+};

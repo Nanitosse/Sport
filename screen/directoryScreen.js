@@ -1,11 +1,14 @@
 import { FlatList, Viwe, Text, SafeAreaView } from "react-native";
 import { Avatar, ListItem } from 'react-native-elements';
+import { useState } from "react";
+import { FIELDS } from "../shared/field";
 
 
-const DirectoryScreen = (props) => {
+const DirectoryScreen = ({navigation}) => {
+    const [fields , setFields]= useState(FIELDS);
     const renderDirectoryItem = ({ item }) => {
         return (
-            <ListItem onPress={() => props.onPress(item.id)} >
+            <ListItem onPress={()=>navigation.navigate('FieldInfo',{item})} >
                 <Avatar source={item.image} />
                 <ListItem.Content>
                     <ListItem.Title>{item.name}</ListItem.Title>
@@ -17,7 +20,7 @@ const DirectoryScreen = (props) => {
     return (
         <FlatList
             style={{ flex:1 }}
-            data={props.fields}
+            data={fields}
             renderItem={renderDirectoryItem}
             keyExtractor={(item) => item.id.toString()}
 

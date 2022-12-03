@@ -1,30 +1,56 @@
 import { useState } from "react";
+import { Platform, View } from "react-native";
 import { FIELDS } from "../shared/field";
 import DirectoryScreen from './directoryScreen';
-import { View } from "react-native";
+
 import FieldInfoScreen from "./fieldInfoScreen";
+import Constants from 'expo-constants';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const DirectoryNavigator = () => {
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator
+            initialRouteName="Directory"
+            screnOptions={{
+                headerStyle: {
+                    backgroundColor: '#5637DD'
+                },
+                headerTinColor: "#fff"
+            }}
+
+        >
+            <Stack.Screen
+                name='Directory'
+                component={DirectoryScreen}
+                options={{ title: 'field Direct' }}
+            />
+            <Stack.Screen
+                name='FieldInfo'
+                component={FieldInfoScreen}
+                options={({ route }) => ({
+                    title: route.params.item.name
+
+                })
+
+                }
+            />
+
+        </Stack.Navigator>
+    )
+
+}
 
 
 const Main = () => {
-    const [fields, setFields] = useState(FIELDS);
-    const [selectedFieldId, setSelectedFieldId] = useState();
 
     return (
-        <View style={{ flex: 1 }}>
-            <DirectoryScreen
-                fields={fields}
-                onPress={(fieldId)=> setSelectedFieldId(fieldId)}
-            />
-            <FieldInfoScreen
-                item={
-                    fields.filter(
-                        (field) => field.id === selectedFieldId
-                    )[0]
-
-                }
-
-
-            />
+        <View 
+            style={{ flex: 1 , paddingTop:Platform.OS==='ios'? 0 : Constants.statusBarHeight}}
+        >
+            <DirectoryNavigator/>
+            
 
         </View>
     )
