@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from './HomeScreen'
+import ContactScreen from "./ContactScreen";
 
 
 const Drawer = createDrawerNavigator();
@@ -14,6 +15,24 @@ const Drawer = createDrawerNavigator();
 const screenOptions = {
     headerTintColor: '#fff',
     headerStyle: { backgroundColor: 'blue-Sky' }
+};
+
+const ContactNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator
+            screenOptions={screenOptions}
+        >
+            <Stack.Screen
+                name='Con'
+                component={ContactScreen}
+                options={{ title: '' }}
+            />
+
+
+        </Stack.Navigator>
+    )
+
 }
 
 const HomeNavigator = () => {
@@ -23,10 +42,11 @@ const HomeNavigator = () => {
             screenOptions={screenOptions}
         >
             <Stack.Screen
-                name='Home'
+                name='Ho'
                 component={HomeScreen}
                 options={{ title: '' }}
             />
+
 
         </Stack.Navigator>
     )
@@ -42,7 +62,7 @@ const DirectoryNavigator = () => {
 
         >
             <Stack.Screen
-                name='Directory'
+                name='Direc'
                 component={DirectoryScreen}
                 options={{ title: 'fields' }}
             />
@@ -82,6 +102,11 @@ const Main = () => {
                     name='Directory'
                     component={DirectoryNavigator}
                     options={{ title: 'Directory' }}
+                />
+                <Drawer.Screen
+                    name='Contact'
+                    component={ContactNavigator}
+                    options={{ title: "contact" }}
                 />
 
             </Drawer.Navigator>
