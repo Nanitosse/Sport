@@ -1,13 +1,16 @@
-import { useState } from "react";
-import { Platform, View } from "react-native";
+
+import { Platform, View, Image,StyleSheet,Text } from "react-native";
 import { FIELDS } from "../shared/field";
 import DirectoryScreen from './directoryScreen';
 import FieldInfoScreen from "./fieldInfoScreen";
 import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import HomeScreen from './HomeScreen'
 import ContactScreen from "./ContactScreen";
+import AboutUs from "./About";
+import logo from "../assets/images/logo.jpg"
+
 
 
 const Drawer = createDrawerNavigator();
@@ -33,6 +36,23 @@ const ContactNavigator = () => {
         </Stack.Navigator>
     )
 
+}
+
+const AboutNavigator = () => {
+   const  Stack = createStackNavigator()
+
+    return (
+        <Stack.Navigator
+            screenOptions={screenOptions}
+        >
+            <Stack.Screen
+                name='Ab'
+                component={AboutUs}
+                options={{ title: '' }}
+            />
+
+        </Stack.Navigator>
+    )
 }
 
 const HomeNavigator = () => {
@@ -82,6 +102,20 @@ const DirectoryNavigator = () => {
 
 }
 
+const CustomDrawerContent = (props) => (
+
+        <DrawerContentScrollView {...props}>
+            <View >
+                <View style={{ flex: 1 }}>
+                    <Image source={logo} style={StyleSheet.drawerImage} />
+                </View>
+            </View>
+            <DrawerItemList {...props} labelStyle={{ fontWeight: 'bold' }} />
+        </DrawerContentScrollView>
+    
+
+);
+
 
 const Main = () => {
 
@@ -92,6 +126,7 @@ const Main = () => {
             <Drawer.Navigator
                 initialRouteName='Home'
                 drawerStyle={{ backgroundColor: '#CEC8FF' }}
+                drawerContent={CustomDrawerContent}
             >
                 <Drawer.Screen
                     name='Home'
@@ -108,6 +143,11 @@ const Main = () => {
                     component={ContactNavigator}
                     options={{ title: "contact" }}
                 />
+                <Drawer.Screen
+                    name='AboutUs'
+                    component={AboutNavigator}
+                    options={{ title: "AboutUs" }}
+                />
 
             </Drawer.Navigator>
 
@@ -116,6 +156,29 @@ const Main = () => {
     )
 
 }
+
+const styles = StyleSheet.create({
+    drawerHeader: {
+        backgroundColor: 'black',
+        height: 150,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row'
+    },
+
+    drawerHeaderText: {
+        color: 'black',
+        fontSize: 24,
+        fontWeight: 'bold'
+    },
+    drawerImage: {
+        margin: 2,
+        height: 2,
+        width: 2,
+    }
+
+});
 
 
 export default Main;
