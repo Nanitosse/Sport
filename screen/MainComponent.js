@@ -9,8 +9,12 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '
 import HomeScreen from './HomeScreen'
 import ContactScreen from "./ContactScreen";
 import AboutUs from "./About";
-import logo from "../assets/images/logo.jpg"
-
+import logo from "../assets/images/logo.jpg";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchPartners } from "../features/partners/partnersSlice";
+import { fetchFields } from "../features/Fields/fieldsSlice";
+import { fetchComments } from "../features/comments/commentsSlice";
 
 
 const Drawer = createDrawerNavigator();
@@ -118,6 +122,13 @@ const CustomDrawerContent = (props) => (
 
 
 const Main = () => {
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(fetchFields());
+        dispatch(fetchPartners());
+        dispatch(fetchComments());
+
+    },[dispatch])
 
     return (
         <View
