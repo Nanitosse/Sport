@@ -20,7 +20,7 @@ export default function App() {
         }}
 
       >
-        <NavigationContainer theme={MyTheme}>
+        <NavigationContainer  theme={MyTheme}>
           <Main />
         </NavigationContainer>
       </ImageBackground>

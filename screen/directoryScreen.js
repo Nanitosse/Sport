@@ -4,11 +4,13 @@ import { useState } from "react";
 import { FIELDS } from "../shared/field";
 
 
+
+
 const DirectoryScreen = ({navigation}) => {
     const [fields , setFields]= useState(FIELDS);
     const renderDirectoryItem = ({ item }) => {
         return (
-            <ListItem onPress={()=>navigation.navigate('FieldInfo',{item})} >
+            <ListItem onPress={()=>navigation.navigate('FieldInfo',{item})}r >
                 <Avatar source={item.image} />
                 <ListItem.Content>
                     <ListItem.Title>{item.name}</ListItem.Title>
@@ -28,5 +30,6 @@ const DirectoryScreen = ({navigation}) => {
     )
 
 }
+
 
 export default DirectoryScreen; 

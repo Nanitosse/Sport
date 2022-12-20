@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     commentsTitle: {
         textAlign: 'center',
         backgroundColor: 'white',
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
         color: '#4348D',
         padding: 10,
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     commentItem: {
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: 'blue'
+        backgroundColor: 'honeydew'
+        
     }
 
 })

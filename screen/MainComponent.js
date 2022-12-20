@@ -10,11 +10,8 @@ import HomeScreen from './HomeScreen'
 import ContactScreen from "./ContactScreen";
 import AboutUs from "./About";
 import logo from "../assets/images/logo.jpg";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { fetchPartners } from "../features/partners/partnersSlice";
-import { fetchFields } from "../features/Fields/fieldsSlice";
-import { fetchComments } from "../features/comments/commentsSlice";
+import { useState } from "react";
+import ReservationScreen from "./ReservationScreen";
 
 
 const Drawer = createDrawerNavigator();
@@ -34,6 +31,23 @@ const ContactNavigator = () => {
                 name='Con'
                 component={ContactScreen}
                 options={{ title: '' }}
+            />
+
+
+        </Stack.Navigator>
+    )
+
+}
+const ReservationNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator
+            screenOptions={screenOptions}
+        >
+            <Stack.Screen
+                name='Resevation'
+                component={ReservationScreen}
+                options={{ title: 'Reservation Search' }}
             />
 
 
@@ -122,14 +136,9 @@ const CustomDrawerContent = (props) => (
 
 
 const Main = () => {
-    const dispatch = useDispatch()
-    useEffect(()=>{
-        dispatch(fetchFields());
-        dispatch(fetchPartners());
-        dispatch(fetchComments());
-
-    },[dispatch])
-
+    // const [fields, setFields] = useState(FIELDS);
+    // const [selectedFieldId, setSelectedFieldId] = useState();
+   
     return (
         <View
             style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}
@@ -148,6 +157,11 @@ const Main = () => {
                     name='Directory'
                     component={DirectoryNavigator}
                     options={{ title: 'Directory' }}
+                />
+                <Drawer.Screen
+                    name='ReserveTraining'
+                    component={ReservationNavigator}
+                    options={{ title: 'Reservation' }}
                 />
                 <Drawer.Screen
                     name='Contact'
