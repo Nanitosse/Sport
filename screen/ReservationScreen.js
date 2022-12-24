@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Text, View, ScrollView, StyleSheet, Switch, Button } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Switch, Button, Modal } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -12,6 +12,7 @@ const ReservationScreen = () => {
     const [weight, setWeight] = useState(false)
     const [date, setDate] = useState(new Date());
     const [showCalendar, setShowCalendar] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const onDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -25,6 +26,10 @@ const ReservationScreen = () => {
         console.log('calis', calis);
         console.log('weight', weight);
         console.log('date', date);
+        setShowModal(!showModal);
+    };
+
+    const resetForm = () => {
         setCalis(1);
         setWeight(false);
         setDate(new Date());
@@ -34,7 +39,7 @@ const ReservationScreen = () => {
     return (
         <ScrollView>
             <View style={StyleSheet.formRow}>
-                <Text style={{ color:'white'}}>Number of trainees</Text>
+                <Text style={{ color: 'white' }}>Number of trainees</Text>
                 <Picker
                     style={styles.formItem}
                     selectedValue={trainees}
@@ -92,35 +97,86 @@ const ReservationScreen = () => {
                     onPress={() => handleReservation()}
                     title='Search Availability'
                     color='white'
-                    accessibilityLabel='Tap me to search for available campsites to reserve'
+                    accessibilityLabel='Tap me to search for available training to reserve'
 
                 />
-
-
             </View>
+            <Modal
+                animationType='slide'
+                transparent={false}
+                visible={showModal}
+                onRequestClose={() => setShowModal(!showModal)}
+            >
+                <View style={styles.modal}>
+                    <Text style={styles.modalTitle}>
+                        Search Training Type Reservations
+                    </Text>
+                    <Text style={styles.modalText}>
+                        Number of Trainees :{trainees}
+                    </Text>
+                    <Text style={styles.modalText}>
+                        Calisthenics : {calis ? 'yes' : 'non'}
+                    </Text>
+                    <Text style={styles.modalText}>
+                        weight : {weight ? 'yes' : 'non'}
+                    </Text>
+                    <Text style={styles.modalText}>
+                        Date: {date.toLocaleDateString('en-us')}
+                    </Text>
+                    <Button
+                        onPress={
+                            () => {
+                                setShowModal(!showModal);
+                                resetForm();
+                            }
 
-
+                        }
+                    
+                        title='Close'
+                        color='cadetblue'
+                        fontWeight="bold"
+                    />
+                </View>
+            </Modal>
         </ScrollView>
     )
 }
 
-const styles= StyleSheet.create({
-    formRow:{
+const styles = StyleSheet.create({
+    formRow: {
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
         flex: 1,
         flexDirection: 'row ',
-        margin:20
+        margin: 20
     },
-    formLabel:{
-        fontSize:18,
-        flex:2,
-        color:'white'
+    formLabel: {
+        fontSize: 18,
+        flex: 2,
+        color: 'white'
     },
-    formItem:{
-        flex:1
+    formItem: {
+        flex: 1
+    },
+
+    modal: {
+        justifyContent: 'center',
+        margin:  20
+
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        backgroundColor: 'cadetblue',
+        color: 'white',
+        marginBottom: 20
+    },
+    modalText: {
+        fontSize: 18,
+        margin: 10
+
     }
 
 })
 
-export default ReservationScreen
+export default ReservationScreen;
