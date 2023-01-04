@@ -12,6 +12,11 @@ import AboutUs from "./About";
 import logo from "../assets/images/logo.jpg";
 import { useState } from "react";
 import ReservationScreen from "./ReservationScreen";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchFields } from "../features/Fields/fieldsSlice";
+import { fetchComments } from "../features/comments/commentsSlice";
+import {fetchPartners} from  '../features/partners/partnersSlice'
 
 
 const Drawer = createDrawerNavigator();
@@ -138,6 +143,14 @@ const CustomDrawerContent = (props) => (
 const Main = () => {
     // const [fields, setFields] = useState(FIELDS);
     // const [selectedFieldId, setSelectedFieldId] = useState();
+    const dispatch= useDispatch();
+    useEffect(
+        ()=>{
+            dispatch(fetchFields());
+            dispatch(fetchComments());
+            dispatch(fetchPartners());
+        }, [dispatch]
+    );
    
     return (
         <View

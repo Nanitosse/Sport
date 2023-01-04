@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import Main from "./screen/MainComponent";
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { Provider } from 'react-redux'
-import { store } from './screen/redux/store';
+import { store } from './redux/store';
 
 
 export default function App() {

@@ -8,12 +8,14 @@ import { baseUrl } from '../shared/baseUrl';
 
 
 
-const FeaturedItem = () => {
 
-    // if (item) {
+
+const FeaturedItem = ({item}) => {
+
+     if (item) {
     return (
-        <Card containerStyle={{ padding: 0, height: 300, }} >
-            <Card.Image source={require('../assets/images/logo.jpg')} containerStyle={{ borderRadius: 400 / 5 }}>
+        <Card containerStyle={{ padding: 0, height: 200, }} >
+            <Card.Image source={{uri: baseUrl +item.image}} >
                 <View style={{ justifyContent: 'center', flex: 1 }}>
                     <Text
                         style={{
@@ -22,22 +24,19 @@ const FeaturedItem = () => {
                             fontSize:20
                         }}
                     >
-                        {/* {item.name} */}
+                         {item.name} 
                     </Text>
                 </View>
             </Card.Image>
-            <Text style={{
-                margin: 20, 
-                fontWeight: 'bold', 
-                textAlign: 'center', 
-                color: 'green',
-                fontSize:14
-            }}>SPORTS
-            </Text>
+            <Text style={{ margin:20}}>{item.desciption}</Text>
+                 
+        
+            
+           
         </Card>
     );
-    // }
-    // return <View />;
+     }
+     return <View />;
 
 
 
@@ -47,11 +46,19 @@ const HomeScreen = () => {
 
     // const [field, setField]= useState(FIELDS);
     //  const featField = field.find((item) => item.featured);
+    const fields = useSelector((state)=> state.fields);
+    const comments = useSelector((state)=>  state.comments);
+    const partners = useSelector((state)=> state.partners);
+    const featField = fields.fieldsArray.find((item)=>item.featured)
+    const featComment = comments.commentsArray.find((item)=>item.featured)
+    const featPartner = partners.partnersArray.find((item)=>item.featured);
 
 
     return (
         <ScrollView>
-            <FeaturedItem />
+            <FeaturedItem  item={featField}/>
+            <FeaturedItem  item={featComment}/>
+            <FeaturedItem  item={featPartner}/>
 
         </ScrollView>
     )

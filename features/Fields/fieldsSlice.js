@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { baseUrl } from '../../shared/baseUrl';
+import { createSlice , createAsyncThunk } from '@reduxjs/toolkit';
+import {baseUrl} from   '../../shared/baseUrl';
 
 export const fetchFields = createAsyncThunk(
     'fields/fetchFields',
