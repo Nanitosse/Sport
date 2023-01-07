@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import RenderField from '../features/Fields/RenderField'
 import { FlatList, StyleSheet, Text, View, Button, Modal, } from 'react-native';
-import { COMMENTS } from '../shared/comment';
+// import { COMMENTS } from '../shared/comment';
 import { Input, Icon, Rating } from 'react-native-elements';
 import { postComment } from '../features/comments/commentsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorite } from '../features/favorite/favoriteSlice';
 
 
 const FieldInfoScreen = ({ route }) => {
     const { item } = route.params;
-    const [comments, setCommnets] = useState(COMMENTS);
-    const [favorite, setFavorite] = useState(false);
+    const comments = useSelector((state) => state.comments);
+    // const [favorite, setFavorite] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [rating, setRating] = useState();
     const [author, setAuthor] = useState('');
     const [text, setText] = useState('');
-    const dispatch= useDispatch();
+    const dispatch = useDispatch();
+    const favorites = useSelector((state) => state.favorites);
 
     handleSubmit = () => {
         const newComment = {
@@ -26,14 +28,9 @@ const FieldInfoScreen = ({ route }) => {
 
         }
 
-    
-        setShowModal(!showModal);
-        
         dispatch(postComment(newComment));
-        
-       
-        
-        
+        setShowModal(!showModal);
+
     }
 
     const resetForm = () => {
@@ -51,7 +48,7 @@ const FieldInfoScreen = ({ route }) => {
                 {/* <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text> */}
                 <Rating
                     readonly={true}
-                    style={{alignItems:'flex-start', paddingVertical:'5%'}}
+                    style={{ alignItems: 'flex-start', paddingVertical: '5%' }}
                     startingValue={rating}
                     imageSize={10}
                 />
@@ -65,9 +62,9 @@ const FieldInfoScreen = ({ route }) => {
     return (
         <>
             <FlatList
-                data={comments.filter((comment) => comment.itemId === item.id)}
+                data={comments.commentsArray.filter((comment) => comment.itemId === item.id)}
                 renderItem={renderCommentItem}
-                keyExtractor={(item) => item.id.toString()}
+                // keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={{
                     marginHorizontal: 10,
                     paddingVertical: 10,
@@ -76,8 +73,8 @@ const FieldInfoScreen = ({ route }) => {
                     <>
                         <RenderField
                             item={item}
-                            isFavorite={favorite}
-                            markFavorite={() => setFavorite(true)}
+                            isFavorite={favorites.includes(item.id)}
+                            markFavorite={() => dispatch(toggleFavorite(item.id))}
                             onShowModal={() => setShowModal(!showModal)}
                         />
                         <Text style={styles.commentsTitle}>Comments</Text>

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Card, Icon } from "react-native-elements";
+import { baseUrl } from "../../shared/baseUrl";
 
 
 const RenderField = (props) => {
@@ -7,7 +8,7 @@ const RenderField = (props) => {
     if (item) {
         return (
             <Card containerStyle={{ padding: 0, width: 270, height: 250 }}>
-                <Card.Image source={item.image}>
+                <Card.Image source={{uri:baseUrl + item.image}}>
                     <View style={{ justifyContent: 'center', flex: 1 }}>
                         <Text
                             style={ styles.cardText}        
