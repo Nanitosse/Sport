@@ -48,7 +48,7 @@ const DirectoryScreen = ({ navigation }) => {
 
     return (
         <FlatList
-            // style={{ flex: 1 }}
+             style={{ flex: 1 }}
             data={fields.fieldsArray}
             renderItem={renderDirectoryItem}
             keyExtractor={(item) => item.id.toString()}

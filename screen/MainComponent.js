@@ -1,5 +1,5 @@
 
-import { Platform, View, Image,StyleSheet,Text } from "react-native";
+import { Platform, View, Image, StyleSheet, Text,  } from "react-native";
 import { FIELDS } from "../shared/field";
 import DirectoryScreen from './directoryScreen';
 import FieldInfoScreen from "./fieldInfoScreen";
@@ -16,8 +16,9 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchFields } from "../features/Fields/fieldsSlice";
 import { fetchComments } from "../features/comments/commentsSlice";
-import {fetchPartners} from  '../features/partners/partnersSlice'
-
+import { fetchPartners } from '../features/partners/partnersSlice';
+import FavoritesScreen from "./favoritesScreen";
+import { Icon } from "react-native-elements";
 
 const Drawer = createDrawerNavigator();
 
@@ -61,8 +62,10 @@ const ReservationNavigator = () => {
 
 }
 
+
+
 const AboutNavigator = () => {
-   const  Stack = createStackNavigator()
+    const Stack = createStackNavigator()
 
     return (
         <Stack.Navigator
@@ -94,6 +97,35 @@ const HomeNavigator = () => {
         </Stack.Navigator>
     )
 }
+const FavoritesNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator
+            screenOptions={screenOptions}
+        >
+            <Stack.Screen
+                name='favorites'
+                component={FavoritesScreen}
+                options={({ navigation }) => ({
+                    title: 'favorite fields',
+                    headerLeft: () => (
+                        <Icon
+                            name='heart'
+                            type='font-awesome'
+                            iconStyle={styles.stackIcon}
+                            onPress={()=>navigation.toggleDrawer()}
+                        />
+                    )
+
+
+                })}
+            />
+
+
+        </Stack.Navigator>
+    )
+
+}
 
 const DirectoryNavigator = () => {
     const Stack = createStackNavigator();
@@ -105,7 +137,7 @@ const DirectoryNavigator = () => {
 
         >
             <Stack.Screen
-                name='Direc'
+                name='Directory'
                 component={DirectoryScreen}
                 options={{ title: 'fields' }}
             />
@@ -127,15 +159,15 @@ const DirectoryNavigator = () => {
 
 const CustomDrawerContent = (props) => (
 
-        <DrawerContentScrollView {...props}>
-            <View >
-                <View style={{ flex: 1 }}>
-                    <Image source={logo} style={StyleSheet.drawerImage} />
-                </View>
+    <DrawerContentScrollView {...props}>
+        <View >
+            <View style={{ flex: 1 }}>
+                <Image source={logo} style={StyleSheet.drawerImage} />
             </View>
-            <DrawerItemList {...props} labelStyle={{ fontWeight: 'bold' }} />
-        </DrawerContentScrollView>
-    
+        </View>
+        <DrawerItemList {...props} labelStyle={{ fontWeight: 'bold' }} />
+    </DrawerContentScrollView>
+
 
 );
 
@@ -143,15 +175,15 @@ const CustomDrawerContent = (props) => (
 const Main = () => {
     // const [fields, setFields] = useState(FIELDS);
     // const [selectedFieldId, setSelectedFieldId] = useState();
-    const dispatch= useDispatch();
+    const dispatch = useDispatch();
     useEffect(
-        ()=>{
+        () => {
             dispatch(fetchFields());
             dispatch(fetchComments());
             dispatch(fetchPartners());
         }, [dispatch]
     );
-   
+
     return (
         <View
             style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}
@@ -175,6 +207,23 @@ const Main = () => {
                     name='ReserveTraining'
                     component={ReservationNavigator}
                     options={{ title: 'Reservation' }}
+                />
+                <Drawer.Screen
+                    name='Favorites'
+                    component={FavoritesNavigator}
+                    options={{
+                        title: 'My Favorites',
+                        drawerIcon: ({ color }) => (
+                            <Icon
+                                name='heart'
+                                type='font-awesome'
+                                size={24}
+                                iconStyle={{ width: 24 }}
+                                color={color}
+                            />
+                        )
+                    }}
+                
                 />
                 <Drawer.Screen
                     name='Contact'
