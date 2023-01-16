@@ -1,4 +1,4 @@
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, Animated } from 'react-native';
 import { useState } from 'react';
 import { Card } from 'react-native-elements';
 import { FIELDS } from '../shared/field';
@@ -6,6 +6,9 @@ import { FIELDS } from '../shared/field';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import Loading from '../component/LoadingComponent';
+import { useEffect, useRef } from 'react';
+
+
 
 
 
@@ -62,10 +65,19 @@ const HomeScreen = () => {
     const featField = fields.fieldsArray.find((item) => item.featured)
     const featComment = comments.commentsArray.find((item) => item.featured)
     const featPartner = partners.partnersArray.find((item) => item.featured);
+    const scaleValue =  useRef( new Animated.Value(0)).current; 
+    const scaleAnimation = Animated.timing(scaleValue,{
+        toVAlue:1,
+        duration:1500,
+        useNativeDriver: true
+    },[])
 
+    useEffect(()=> {
+        scaleAnimation.start()
+    })
 
     return (
-        <ScrollView>
+        <Animated.ScrollView style={{transform:[{scale:scaleValue}]}}>
             <FeaturedItem
                 item={featField}
                 isLoading={fields.isLoading}
@@ -78,7 +90,7 @@ const HomeScreen = () => {
                 errMess={partners.errMess}
             />
 
-        </ScrollView>
+        </Animated.ScrollView>
     )
 
 
