@@ -3,7 +3,9 @@ import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import Main from "./screen/MainComponent";
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { Provider } from 'react-redux'
-import { store } from './redux/store';
+import { store, persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import Loading from './component/LoadingComponent';
 
 
 export default function App() {
@@ -20,9 +22,11 @@ export default function App() {
         }}
 
       >
-        <NavigationContainer  theme={MyTheme}>
-          <Main />
-        </NavigationContainer>
+        <PersistGate loading={<Loading/>} persistor={persistor}>
+          <NavigationContainer theme={MyTheme}>
+            <Main />
+          </NavigationContainer>
+        </PersistGate>
       </ImageBackground>
 
     </Provider>
