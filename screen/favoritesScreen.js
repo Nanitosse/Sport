@@ -1,15 +1,17 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { View, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import Loading from '../component/LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 import { SwipeRow } from 'react-native-swipe-list-view'
 import { toggleFavorite } from '../features/favorite/favoriteSlice';
 
+
+
 const FavoritesScreen = ({ navigation }) => {
     const { fieldsArray, isLoading, errMess } = useSelector((state) => state.fields);
     const favorites = useSelector((state) => state.favorites);
-    const dispactch = useDispatch();
+    const dispatch = useDispatch();
 
 
     const renderFavoriteItem = ({ item }) => {
@@ -18,9 +20,40 @@ const FavoritesScreen = ({ navigation }) => {
                 <View style={StyleSheet.deleteView}>
                     <TouchableOpacity
                         style={styles.deleteTouchable}
-                        onPress={()=>dispactch( toggleFavorite(item.id))}
+                        onPress={() =>
+                            Alert.alert(
+                                "Delete Favorite ?",
+                                "are you sure  you wish to delete  the favorite  " +
+                                item.name + "field",
+                                '?',
+                                [
+                                    {
+                                        text: 'Cancel',
+                                        onPress: () => console.log(item.name + 'Field Not deleted'),
+                                        style: 'cancel'
+                                    },
+                                    {
+                                        text: 'Ok',
+                                        onPress: () => dispatch(toggleFavorite(item.id)),
+
+                                    }
+                                ],
+                                { cancelable: false }
+                            )
+
+
+
+
+
+
+
+
+
+
+
+                        }
                     >
-                        <Text style = {styles.deleText}>Delete</Text>
+                        <Text style={styles.deleText}>Delete</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
@@ -35,7 +68,10 @@ const FavoritesScreen = ({ navigation }) => {
 
                         }
                     >
-                        <Avatar rounded source={{ uri: baseUrl + item.image }} />
+                        <Avatar
+                            rounded
+                            source={{ uri: baseUrl + item.image }}
+                        />
                         <ListItem.Content>
                             <ListItem.Title>{item.name}</ListItem.Title>
                             <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
@@ -54,7 +90,6 @@ const FavoritesScreen = ({ navigation }) => {
         return (
             <View>
                 <Text>{errMess}</Text>
-
             </View>
         )
     }
@@ -72,28 +107,28 @@ const FavoritesScreen = ({ navigation }) => {
 
 
 const styles = StyleSheet.create({
-    deleteView :{
+    deleteView: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        alignItem: 'center', 
-        flex:1
+        alignItem: 'center',
+        flex: 1
 
     },
 
-    deleteTouchable:{
-        backgroundColor:'red',
-        height: '100%', 
+    deleteTouchable: {
+        backgroundColor: 'red',
+        height: '100%',
         justifyContent: 'center'
 
-    }, 
-    deleText:{
-        color:'white',
-        fontWeight:'700',
+    },
+    deleText: {
+        color: 'white',
+        fontWeight: '700',
         textAlign: 'center',
         fontSize: 16,
         width: 100
 
-    }
+    },
 
 })
 

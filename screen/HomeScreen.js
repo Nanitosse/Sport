@@ -1,4 +1,4 @@
-import { Text, View, Animated, StyleSheet, Button } from 'react-native';
+import { Text, View, Animated, StyleSheet, Button, ScrollView } from 'react-native';
 // import { useState } from 'react';
 import { Card } from 'react-native-elements';
 import { FIELDS } from '../shared/field';
@@ -109,25 +109,49 @@ const HomeScreen = () => {
 
 
     return (
+
         <View style={styles.container}>
-            <Video
-                ref={video}
-                style={styles.video}
-                source={require('../assets/images/videoplayback.mp4')}
-                useNativeControls
-                resizeMode="contain"
-                isLooping
-                onPlaybackStatusUpdate={status => setStatus(() => status)}
-            />
-            <View style={styles.buttons}>
+            <ScrollView>
+                <View>
+                    <Video
+                        autoplay={true}
+                        ref={video}
+                        style={styles.video}
+                        source={require('../assets/images/videoplayback.mp4')}
+                        useNativeControls
+                        resizeMode="contain"
+                        isLooping
+                        onPlaybackStatusUpdate={status => setStatus(() => status)}
+                    />
+                </View>
+                <View>
+                    <Video
+                        autoplay={true}
+                        ref={video}
+                        style={styles.video}
+                        source={require('../assets/images/videoplayback1.mp4')}
+                        useNativeControls
+                        resizeMode="contain"
+                        isLooping
+                        onPlaybackStatusUpdate={status => setStatus(() => status)}
+                    />
+
+                </View>
+
+
+            </ScrollView>
+
+
+            {/* <View style={styles.buttons}>
                 <Button
                     title={status.isPlaying ? 'Pause' : 'Play'}
                     onPress={() =>
                         status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
                     }
                 />
-            </View>
+            </View> */}
         </View>
+
 
 
     )
@@ -147,11 +171,11 @@ const styles = StyleSheet.create({
         width: 400,
         height: 500,
     },
-    buttons: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+    // buttons: {
+    //     flexDirection: 'row',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    // },
 });
 
 

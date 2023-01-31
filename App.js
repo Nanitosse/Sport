@@ -12,6 +12,7 @@ export default function App() {
   return (
 
     <Provider store={store}>
+
       <ImageBackground
         source={require('./assets/images/soccer.png')}
         style={{
@@ -22,7 +23,7 @@ export default function App() {
         }}
 
       >
-        <PersistGate loading={<Loading/>} persistor={persistor}>
+        <PersistGate loading={<Loading />} persistor={persistor}>
           <NavigationContainer theme={MyTheme}>
             <Main />
           </NavigationContainer>
