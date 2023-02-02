@@ -1,5 +1,5 @@
 
-import { Platform, View, Image, StyleSheet, Text,  } from "react-native";
+import { Platform, View, Image, StyleSheet, Text, } from "react-native";
 import { FIELDS } from "../shared/field";
 import DirectoryScreen from './directoryScreen';
 import FieldInfoScreen from "./fieldInfoScreen";
@@ -19,6 +19,8 @@ import { fetchComments } from "../features/comments/commentsSlice";
 import { fetchPartners } from '../features/partners/partnersSlice';
 import FavoritesScreen from "./favoritesScreen";
 import { Icon } from "react-native-elements";
+import Loading from "../component/LoadingComponent";
+import LoginScreen from "./logingScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -113,7 +115,36 @@ const FavoritesNavigator = () => {
                             name='heart'
                             type='font-awesome'
                             iconStyle={styles.stackIcon}
-                            onPress={()=>navigation.toggleDrawer()}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+
+
+                })}
+            />
+
+
+        </Stack.Navigator>
+    )
+
+}
+const LoginNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator
+            screenOptions={screenOptions}
+        >
+            <Stack.Screen
+                name='login'
+                component={LoginScreen}
+                options={({ navigation }) => ({
+                    title: '',
+                    headerLeft: () => (
+                        <Icon
+                            name='sign-in'
+                            type='font-awesome'
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
                         />
                     )
 
@@ -221,9 +252,26 @@ const Main = () => {
                                 iconStyle={{ width: 24 }}
                                 color={color}
                             />
+
                         )
                     }}
-                
+
+                />
+                <Drawer.Screen
+                    name='login'
+                    component={LoginNavigator}
+                    options={{
+
+                        drawerIcon: ({ color }) => (
+                            <Icon
+                                name='sign-in'
+                                type="font-awesome"
+                                size={24}
+                                conStyle={{ width: 24 }}
+                                color={color}
+                            />
+                        )
+                    }}
                 />
                 <Drawer.Screen
                     name='Contact'

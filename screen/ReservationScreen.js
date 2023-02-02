@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Text, View, ScrollView, StyleSheet, Switch, Button, Modal } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Switch, Button, Modal, NativeModules } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import * as Notifications from 'expo-notifications'
 
 
 const ReservationScreen = () => {
@@ -34,6 +34,27 @@ const ReservationScreen = () => {
         setWeight(false);
         setDate(new Date());
         setShowCalendar(false);
+    }
+    const presentLocalNotification = async(reservationDate)=>{
+        const sendNotification = ()=>{
+            Notifications.setNotificationHandler({
+                handleNotification: async()=>({
+                    shouldShowAlert: true,
+                    shouldPlaySound:true,
+                    shouldSetBadge: true
+
+                }) 
+    
+            })
+            Notifications.scheduleNotificationAsync({
+                content:{
+                    title : 'Your training Reservation Search',
+                    body: `Search for ${reservationDate} requested`
+                },
+                trigger: null
+            }) 
+
+        }
     }
 
     return (
