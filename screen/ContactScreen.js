@@ -1,6 +1,7 @@
-import { Text, View, Modal, Button, StyleSheet, Alert } from "react-native"
+import { Text, View, Modal, StyleSheet, Alert } from "react-native"
 import { useState } from "react";
-import { Input } from "react-native-elements";
+import { Input, Button, Icon } from "react-native-elements";
+import * as MailComposer from 'expo-mail-composer'
 
 
 
@@ -12,8 +13,18 @@ const ContactScreen = () => {
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
 
+    const sendMail = () => {
+        MailComposer.composeAsync({
+            recipients: ['nanitosse@gmail.com'],
+            subject: 'Inquiry',
+            body: 'To whom it may concern:'
+
+        });
+    }
+
     const print = () => {
         Alert.alert('pleas enter your contact')
+           
     }
 
     const resetForm = () => {
@@ -39,7 +50,7 @@ const ContactScreen = () => {
     return (
         <View style={styles.centeredView}>
 
-            <View style={{marginBottom: 2, }}>
+            <View style={{ marginBottom: 2, }}>
                 <Text>Press the Button to Open the Contact Form</Text>
                 <Button
                     onPress={() => setModal(true)}
@@ -52,7 +63,7 @@ const ContactScreen = () => {
                 animationType="slide"
                 visible={modal}
                 transparent={true}
-                onShow={()=>print()}
+                onShow={() => print()}
             >
                 <View style={{ backgroundColor: 'transparent', flex: 1 }}>
                     <View style={{ backgroundColor: 'white', borderRadius: 10, flex: 1, marginTop: 90 }}>
@@ -95,6 +106,20 @@ const ContactScreen = () => {
                                 }}
                                 style={{ color: 'blue', justifyContent: 'center', marginTop: 25, padding: 15 }}
                                 title='Submit'
+                            />
+                            <Button
+                                onPress={() => sendMail()}
+                                buttonStyle={{ backgroundColor: '#5637DD', margin: 40 }}
+                                title='Send Email'
+                                icon={
+                                    <Icon
+                                        name='envelope-o'
+                                        type='font-awesome'
+                                        color='#fff'
+                                        iconStyle={{marginright:10}}
+
+                                    />
+                                }
                             />
                         </View>
 

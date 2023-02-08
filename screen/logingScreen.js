@@ -45,9 +45,6 @@ const LoginScreen = () => {
         });
     }, []);
 
-    
-
-
     return (
         <View style={Styles.container}>
             <Input

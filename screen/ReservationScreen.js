@@ -55,6 +55,15 @@ const ReservationScreen = () => {
             }) 
 
         }
+        let permissions = await Notifications.getPermissionsAsync();
+        if(!permissions.granted){
+            permissions= await Notifications.requestPermissionsAsync();
+
+        }
+        if(permissions.granted){
+            sendNotification();
+        }
+
     }
 
     return (
@@ -149,6 +158,7 @@ const ReservationScreen = () => {
                             () => {
                                 setShowModal(!showModal);
                                 resetForm();
+                                presentLocalNotification(date.toLocaleDateString('en-us'))
                             }
 
                         }
