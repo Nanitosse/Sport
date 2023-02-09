@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Alert, PanResponder, } from "react-native";
+import { StyleSheet, Text, View, Alert, PanResponder, Share } from "react-native";
 import { Card, Icon } from "react-native-elements";
 import { baseUrl } from "../../shared/baseUrl";
 import * as Animatable from 'react-native-animatable';
@@ -50,8 +50,19 @@ const RenderField = (props) => {
 
         }
     })
+    const shareField = (title, message, url) => {
+        Share.share(
+            {
+                title,
+                message: `${title}: ${message} ${url}`,
+                url
+            },
+            {
+                dialogTitle:'Share' + title
+            }
+        )
 
-
+    }
 
 
     if (item) {
@@ -91,6 +102,20 @@ const RenderField = (props) => {
                         <Icon
                             name='pencil'
                             onPress={() => props.onShowModal()}
+
+                            type='font-awesome'
+                            color='#f50'
+                            raised
+                            reverse
+                        />
+                        <Icon
+                            name='share'
+                            onPress={() => shareField(
+                                item.name,
+                                item.description,
+                                baseUrl+item.image
+
+                            )}
 
                             type='font-awesome'
                             color='#f50'
