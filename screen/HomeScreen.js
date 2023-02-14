@@ -1,6 +1,6 @@
-import { Text, View, Animated, StyleSheet, Button, ScrollView } from 'react-native';
+import { Text, View, Animated, StyleSheet, Button, ScrollView, } from 'react-native';
 // import { useState } from 'react';
-import { Card } from 'react-native-elements';
+import { Card, } from 'react-native-elements';
 import { FIELDS } from '../shared/field';
 // import { PARTNERS } from '../shared/partner';
 import { useSelector } from 'react-redux';
@@ -110,9 +110,10 @@ const HomeScreen = () => {
 
     return (
 
-        <View style={styles.container}>
+        <View style={styles.backgroundVideo}>
             <ScrollView>
-                <View>
+                <View style={{ flex: 1, justifyContent:'center', alignSelf:'stretch' }}>
+
                     <Video
                         autoplay={true}
                         ref={video}
@@ -123,8 +124,6 @@ const HomeScreen = () => {
                         isLooping
                         onPlaybackStatusUpdate={status => setStatus(() => status)}
                     />
-                </View>
-                <View>
                     <Video
                         autoplay={true}
                         ref={video}
@@ -136,10 +135,11 @@ const HomeScreen = () => {
                         onPlaybackStatusUpdate={status => setStatus(() => status)}
                     />
 
+
                 </View>
 
 
-            </ScrollView>
+            </ScrollView >
 
 
             {/* <View style={styles.buttons}>
@@ -150,7 +150,7 @@ const HomeScreen = () => {
                     }
                 />
             </View> */}
-        </View>
+        </View >
 
 
 
@@ -170,7 +170,15 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 400,
         height: 500,
+
     },
+    backgroundVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      },
     // buttons: {
     //     flexDirection: 'row',
     //     justifyContent: 'center',

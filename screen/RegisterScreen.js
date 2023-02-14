@@ -1,12 +1,12 @@
 import { Text, View, Modal, StyleSheet, Alert } from "react-native"
 import { useState } from "react";
 import { Input, Button, Icon } from "react-native-elements";
-import * as MailComposer from 'expo-mail-composer'
+import * as MailComposer from 'expo-mail-composer';
 
 
 
 
-const ContactScreen = () => {
+const RegisterScreen= () => {
     const [modal, setModal] = useState(false);
     const [name, setNAme] = useState('');
     const [phone, setPhone] = useState('');
@@ -51,15 +51,16 @@ const ContactScreen = () => {
         <View style={styles.centeredView}>
 
             <View style={{ marginBottom: 2, }}>
-                <Text>Press the Button to Open the Contact Form</Text>
+                <Text>Press the Button to Open the Registration  Form</Text>
                 <Button
                     onPress={() => setModal(true)}
-                    style={styles.hide}
+                    // style={styles.hide}
                     title='OPEN'
+                    style={styles.hide}
                 />
             </View>
             <Modal
-                // presentationStyle="overFullScreen"
+                
                 animationType="slide"
                 visible={modal}
                 transparent={true}
@@ -109,7 +110,7 @@ const ContactScreen = () => {
                             />
                             <Button
                                 onPress={() => sendMail()}
-                                buttonStyle={{ backgroundColor: 'blue', margin: 40 }}
+                                buttonStyle={{ backgroundColor: '#5637DD', margin: 40 }}
                                 title='Send Email'
                                 icon={
                                     <Icon
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
             padding: 0,
         },
         hide: {
-            color: 'green',
+            color: 'transparent',
             padding: 0,
             justifyContent: 'center',
             marginTop: 30,
@@ -174,6 +175,5 @@ const styles = StyleSheet.create({
 })
 
 
-export default ContactScreen;
-
+export default RegisterScreen;
 

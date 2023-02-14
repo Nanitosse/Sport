@@ -21,6 +21,9 @@ import FavoritesScreen from "./favoritesScreen";
 import { Icon } from "react-native-elements";
 import Loading from "../component/LoadingComponent";
 import LoginScreen from "./logingScreen";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import RegisterScreen from "./RegisterScreen";
+import React, { useLayoutEffect } from "react";
 
 const Drawer = createDrawerNavigator();
 
@@ -87,7 +90,7 @@ const HomeNavigator = () => {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={screenOptions}
+            screenOptions={{headerShow: false}}
         >
             <Stack.Screen
                 name='Ho'
@@ -128,20 +131,30 @@ const FavoritesNavigator = () => {
     )
 
 }
+
+
 const LoginNavigator = () => {
+    
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={screenOptions}
+            screenOptions={{headerShown: false}}
         >
             <Stack.Screen
-                name='login'
+                name='log-in'
                 component={LoginScreen}
-                options={({ navigation }) => ({
-                    title: '',
+                
+                options={({ navigation, route})=>({
+                    headerTitle:getFocusedRouteNameFromRoute(route),
                     headerLeft: () => (
                         <Icon
-                            name='sign-in'
+                            name={
+                                getFocusedRouteNameFromRoute(route)===
+                                {RegisterScreen}
+                                ? 'user-plus'
+                                : 'sign-in'
+
+                            }
                             type='font-awesome'
                             iconStyle={styles.stackIcon}
                             onPress={() => navigation.toggleDrawer()}
@@ -164,11 +177,10 @@ const DirectoryNavigator = () => {
     return (
         <Stack.Navigator
             initialRouteName="Directory"
-            screenOptions={screenOptions}
-
+            screenOptions={{headerShow: false}}
         >
             <Stack.Screen
-                name='Directory'
+                name='Fields'
                 component={DirectoryScreen}
                 options={{ title: 'fields' }}
             />
@@ -258,7 +270,7 @@ const Main = () => {
 
                 />
                 <Drawer.Screen
-                    name='login'
+                     name='login'
                     component={LoginNavigator}
                     options={{
 
