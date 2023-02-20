@@ -1,17 +1,23 @@
-import { Text, View, Modal, StyleSheet, Alert } from "react-native"
+import { Text, View, Modal, StyleSheet, Alert, Image } from "react-native"
 import { useState } from "react";
 import { Input, Button, Icon } from "react-native-elements";
 import * as MailComposer from 'expo-mail-composer';
+import * as ImagePicker from 'expo-image-picker';
+import { baseUrl } from "../shared/baseUrl";
+import glogo from '../assets/images/glogo.jpg';
 
 
 
 
-const RegisterScreen= () => {
+const RegisterScreen = () => {
     const [modal, setModal] = useState(false);
     const [name, setNAme] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
+    const [imageUrl, setImageUrl] = useState(baseUrl + 'images/glogo.jpg');
+    
+    // const [imageUrl, setImageUrl] = useState(null)
 
     const sendMail = () => {
         MailComposer.composeAsync({
@@ -24,7 +30,7 @@ const RegisterScreen= () => {
 
     const print = () => {
         Alert.alert('pleas enter your contact')
-           
+
     }
 
     const resetForm = () => {
@@ -46,11 +52,26 @@ const RegisterScreen= () => {
 
 
     }
+    const getImageFromCamera = async ()=>{
+        const cameraPermission =  await ImagePicker.requestCameraPermissionsAsync();
+        if(cameraPermission.status==='granted'){
+            const capturedImage= await ImagePicker.launchCameraAsync({
+                allowsEditing: true,
+                aspect:[1,1]
+            
+            });
+            if(!capturedImage.canceled){
+                console.log(capturedImage);
+                setImageUrl(capturedImage.uri);
+            }
+            
+        }
+    }
 
     return (
         <View style={styles.centeredView}>
 
-            <View style={{ marginBottom: 2, }}>
+            <View style={{ marginBottom: 4, }}>
                 <Text>Press the Button to Open the Registration  Form</Text>
                 <Button
                     onPress={() => setModal(true)}
@@ -60,14 +81,25 @@ const RegisterScreen= () => {
                 />
             </View>
             <Modal
-                
+
                 animationType="slide"
                 visible={modal}
                 transparent={true}
                 onShow={() => print()}
             >
                 <View style={{ backgroundColor: 'transparent', flex: 1 }}>
-                    <View style={{ backgroundColor: 'white', borderRadius: 10, flex: 1, marginTop: 90 }}>
+                    <View style={{ backgroundColor: 'white', borderRadius: 10, flex: 1, marginTop:-105 }}>
+                        <View style={{marginTop:90}}>
+                            <Image
+                                source={{uri:imageUrl}}
+                                loadingIndicatorSource={glogo}
+                                style={{ marginTop: 90,  width:50, height:50}}
+                            />
+                            <Button
+                                title="Camera" onPress={getImageFromCamera}
+                            />
+
+                        </View>
                         <Input
                             placeholder="Full-Name"
                             leftIcon={{ type: 'font-awesome', name: 'user-o' }}
@@ -105,19 +137,19 @@ const RegisterScreen= () => {
                                     handelSubmit();
                                     resetForm();
                                 }}
-                                style={{ color: 'blue', justifyContent: 'center', marginTop: 25, padding: 15 }}
+                                style={{ color: 'blue', justifyContent: 'center', marginTop: -5, padding: 15 }}
                                 title='Submit'
                             />
                             <Button
                                 onPress={() => sendMail()}
-                                buttonStyle={{ backgroundColor: '#5637DD', margin: 40 }}
                                 title='Send Email'
+                                style={{marginTop:-20, backgroundColor:'transparent', justifyContent:'center', padding:15}}
                                 icon={
                                     <Icon
                                         name='envelope-o'
                                         type='font-awesome'
-                                        color='#fff'
-                                        iconStyle={{marginright:10}}
+                                        color='black'
+                                        iconStyle={{ marginright: 10 }}
 
                                     />
                                 }
@@ -167,10 +199,20 @@ const styles = StyleSheet.create({
             color: 'transparent',
             padding: 0,
             justifyContent: 'center',
-            marginTop: 30,
+            marginTop: 0,
+        },
+        imageContainer:{
+            flex:1,
+            flexDirection:'row',
+            alignItems: 'center',
+            justifyContent:'space-evenly',
+            marginTop: 0
+        },
+        // image:{
+        //     widht:30,
+        //     height:30
 
-
-        }
+        // }
     }
 })
 

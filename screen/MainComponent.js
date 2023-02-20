@@ -1,5 +1,5 @@
 
-import { Platform, View, Image, StyleSheet, Text, } from "react-native";
+import { Platform, View, Image, StyleSheet, Text,Alert,ToastAndroid } from "react-native";
 import { FIELDS } from "../shared/field";
 import DirectoryScreen from './directoryScreen';
 import FieldInfoScreen from "./fieldInfoScreen";
@@ -24,6 +24,8 @@ import LoginScreen from "./logingScreen";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import RegisterScreen from "./RegisterScreen";
 import React, { useLayoutEffect } from "react";
+import NetInfo from '@react-native-community/netinfo'
+
 
 const Drawer = createDrawerNavigator();
 
@@ -226,6 +228,52 @@ const Main = () => {
             dispatch(fetchPartners());
         }, [dispatch]
     );
+
+    useEffect(()=>{
+        NetInfo.fetch().then((connectionInfo)=>{
+            Platform.OS==='ios'
+            ? Alert.alert(
+                'initial Network Connectivity type:',
+                connectionInfo.type
+            )
+            : ToastAndroid.show(
+                'initial Network Connectivity Type:'+
+                connectionInfo.type,
+                ToastAndroid.LONG
+            );
+        })
+        const unsubscribeNetInfo = NetInfo.addEventListener(
+            (connectionInfo)=>{
+                handleConnectivityChange(connectionInfo);
+            }
+           
+        )
+        return unsubscribeNetInfo;
+
+       
+
+    } ,[])
+    const handleConnectivityChange= (connectionInfo)=>{
+        let connectionMsg ='you arew now connected to an active network';
+        switch(connectionInfo.type){
+            case 'none':
+                connectionMsg= ' no  network is active ';
+                break;
+            case 'unknown':
+                    connectionMsg= 'the network connection is unknown'; 
+                break;       
+            case 'cellular':
+                    connectionMsg= ' you are now connected to  the cellular  network ';
+                break;
+            case 'wifi':
+                connectionMsg= 'you are connected  to a wifi network';
+                break;         
+        }
+        Platform.OS==='ios'
+        ?Alert.alert('connection change:', connectionMsg)
+        : ToastAndroid.show(connectionMsg,ToastAndroid.LONG)
+
+    }
 
     return (
         <View
