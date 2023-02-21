@@ -1,5 +1,5 @@
 
-import { Platform, View, Image, StyleSheet, Text,Alert,ToastAndroid } from "react-native";
+import { Platform, View, Image, StyleSheet, Text, Alert, ToastAndroid } from "react-native";
 import { FIELDS } from "../shared/field";
 import DirectoryScreen from './directoryScreen';
 import FieldInfoScreen from "./fieldInfoScreen";
@@ -92,7 +92,7 @@ const HomeNavigator = () => {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={{headerShow: false}}
+            screenOptions={{ headerShow: false }}
         >
             <Stack.Screen
                 name='Ho'
@@ -136,25 +136,25 @@ const FavoritesNavigator = () => {
 
 
 const LoginNavigator = () => {
-    
+
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={{headerShown: false}}
+            screenOptions={{ headerShown: false }}
         >
             <Stack.Screen
                 name='log-in'
                 component={LoginScreen}
-                
-                options={({ navigation, route})=>({
-                    headerTitle:getFocusedRouteNameFromRoute(route),
+
+                options={({ navigation, route }) => ({
+                    headerTitle: getFocusedRouteNameFromRoute(route),
                     headerLeft: () => (
                         <Icon
                             name={
-                                getFocusedRouteNameFromRoute(route)===
-                                {RegisterScreen}
-                                ? 'user-plus'
-                                : 'sign-in'
+                                getFocusedRouteNameFromRoute(route) ===
+                                    { RegisterScreen }
+                                    ? 'user-plus'
+                                    : 'sign-in'
 
                             }
                             type='font-awesome'
@@ -179,7 +179,7 @@ const DirectoryNavigator = () => {
     return (
         <Stack.Navigator
             initialRouteName="Directory"
-            screenOptions={{headerShow: false}}
+            screenOptions={{ headerShow: false }}
         >
             <Stack.Screen
                 name='Fields'
@@ -229,7 +229,7 @@ const Main = () => {
         }, [dispatch]
     );
 
-    useEffect(()=>{
+    useEffect(() => {
         NetInfo.fetch().then((connectionInfo)=>{
             Platform.OS==='ios'
             ? Alert.alert(
@@ -242,36 +242,59 @@ const Main = () => {
                 ToastAndroid.LONG
             );
         })
+
+       async function Hello(){
+            const connectionInfo = await NetInfo.fetch();
+            if (Platform.OS === 'ios') {
+              Alert.alert(
+                'initial Network Connectivity type:',
+                connectionInfo.type
+              );
+            } else {
+              ToastAndroid.show(
+                'initial Network Connectivity Type:' + connectionInfo.type,
+                ToastAndroid.LONG
+              );
+            }
+          } 
+          
+          Hello();
+          console.log("we got it ")
+          
+          
+
+
+
         const unsubscribeNetInfo = NetInfo.addEventListener(
-            (connectionInfo)=>{
+            (connectionInfo) => {
                 handleConnectivityChange(connectionInfo);
             }
-           
+
         )
         return unsubscribeNetInfo;
 
-       
 
-    } ,[])
-    const handleConnectivityChange= (connectionInfo)=>{
-        let connectionMsg ='you arew now connected to an active network';
-        switch(connectionInfo.type){
+
+    }, [])
+    const handleConnectivityChange = (connectionInfo) => {
+        let connectionMsg = 'you arew now connected to an active network';
+        switch (connectionInfo.type) {
             case 'none':
-                connectionMsg= ' no  network is active ';
+                connectionMsg = ' no  network is active ';
                 break;
             case 'unknown':
-                    connectionMsg= 'the network connection is unknown'; 
-                break;       
+                connectionMsg = 'the network connection is unknown';
+                break;
             case 'cellular':
-                    connectionMsg= ' you are now connected to  the cellular  network ';
+                connectionMsg = ' you are now connected to  the cellular  network ';
                 break;
             case 'wifi':
-                connectionMsg= 'you are connected  to a wifi network';
-                break;         
+                connectionMsg = 'you are connected  to a wifi network';
+                break;
         }
-        Platform.OS==='ios'
-        ?Alert.alert('connection change:', connectionMsg)
-        : ToastAndroid.show(connectionMsg,ToastAndroid.LONG)
+        Platform.OS === 'ios'
+            ? Alert.alert('connection change:', connectionMsg)
+            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG)
 
     }
 
@@ -318,7 +341,7 @@ const Main = () => {
 
                 />
                 <Drawer.Screen
-                     name='login'
+                    name='login'
                     component={LoginNavigator}
                     options={{
 
