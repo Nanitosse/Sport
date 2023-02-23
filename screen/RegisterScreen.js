@@ -5,6 +5,7 @@ import * as MailComposer from 'expo-mail-composer';
 import * as ImagePicker from 'expo-image-picker';
 import { baseUrl } from "../shared/baseUrl";
 import glogo from '../assets/images/glogo.jpg';
+import *as ImageManipulator from 'expo-image-manipulator';
 
 
 
@@ -16,8 +17,43 @@ const RegisterScreen = () => {
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [imageUrl, setImageUrl] = useState(baseUrl + 'images/glogo.jpg');
+
+    const processImage = async (imgUri) => {
+        const image = await ImageManipulator.manipulateAsync(
+            imgUri,
+            [{ resize: { width: 400 } }],
+            { format: ImageManipulator.SaveFormat.PNG }
+
+
+        );
+
+        setImageUrl(image.uri);
+
+        console.log(processImage)
+
+
+
+    }
+    const getImageFromGallery = async () => {
+        const mediaLibraryPermissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if(mediaLibraryPermissions.status==='granted'){
+            const  capturedImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [1, 1]
+            });
+
+            if(!capturedImage.canceled){
+                console.log(capturedImage);
     
-    // const [imageUrl, setImageUrl] = useState(null)
+                processImage(capturedImage.uri);
+            }
+
+
+        }
+
+       
+    }
 
     const sendMail = () => {
         MailComposer.composeAsync({
@@ -52,19 +88,20 @@ const RegisterScreen = () => {
 
 
     }
-    const getImageFromCamera = async ()=>{
-        const cameraPermission =  await ImagePicker.requestCameraPermissionsAsync();
-        if(cameraPermission.status==='granted'){
-            const capturedImage= await ImagePicker.launchCameraAsync({
+    const getImageFromCamera = async () => {
+        const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
+        if (cameraPermission.status === 'granted') {
+            const capturedImage = await ImagePicker.launchCameraAsync({
                 allowsEditing: true,
-                aspect:[1,1]
-            
+                aspect: [1, 1]
+
             });
-            if(!capturedImage.canceled){
+            if (!capturedImage.canceled) {
                 console.log(capturedImage);
-                setImageUrl(capturedImage.uri);
+              
+                processImage(capturedImage.uri);
             }
-            
+
         }
     }
 
@@ -88,15 +125,19 @@ const RegisterScreen = () => {
                 onShow={() => print()}
             >
                 <View style={{ backgroundColor: 'transparent', flex: 1 }}>
-                    <View style={{ backgroundColor: 'white', borderRadius: 10, flex: 1, marginTop:-105 }}>
-                        <View style={{marginTop:90}}>
+                    <View style={{ backgroundColor: 'white', borderRadius: 10, flex: 1, marginTop: -105 }}>
+                        <View style={{ marginTop: 90 }}>
                             <Image
-                                source={{uri:imageUrl}}
+                                source={{ uri: imageUrl }}
                                 loadingIndicatorSource={glogo}
-                                style={{ marginTop: 90,  width:50, height:50}}
+                                style={{ marginTop: 90, width: 70, height: 70 }}
                             />
                             <Button
                                 title="Camera" onPress={getImageFromCamera}
+                            />
+                            <Button
+                                title='Galery'
+                                onPress={getImageFromGallery}
                             />
 
                         </View>
@@ -127,7 +168,7 @@ const RegisterScreen = () => {
                         <View>
                             <Button
                                 onPress={() => setModal(false)}
-                                style={{ color: 'blue', justifyContent: 'center', marginTop: 25, padding: 15 }}
+                                style={{ color: 'blue', justifyContent: 'center', marginTop:-10, padding: 15 }}
                                 title='Cancel'
                             />
                         </View>
@@ -143,7 +184,7 @@ const RegisterScreen = () => {
                             <Button
                                 onPress={() => sendMail()}
                                 title='Send Email'
-                                style={{marginTop:-20, backgroundColor:'transparent', justifyContent:'center', padding:15}}
+                                style={{ marginTop: -20, backgroundColor: 'transparent', justifyContent: 'center', padding: 15 }}
                                 icon={
                                     <Icon
                                         name='envelope-o'
@@ -201,11 +242,11 @@ const styles = StyleSheet.create({
             justifyContent: 'center',
             marginTop: 0,
         },
-        imageContainer:{
-            flex:1,
-            flexDirection:'row',
+        imageContainer: {
+            flex: 1,
+            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent:'space-evenly',
+            justifyContent: 'space-evenly',
             marginTop: 0
         },
         // image:{
