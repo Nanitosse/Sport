@@ -27,7 +27,7 @@ export const store = configureStore({
         fields: fieldsReducer,
         comments: commentsReducer,
         partners: partnersReducer,
-        favorites: favoritesReducer
+        favorites: favoritesReducer,
     }),
     middleware: (getDefaultMiddleware)=> 
        getDefaultMiddleware({

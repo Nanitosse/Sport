@@ -13,66 +13,11 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 
 
 
-
-
-
-
-// const FeaturedItem = (props) => {
-//     const video = React.useRef(null);
-//     const { item } = props;
-//     if (props.isLoading) {
-//         return <Loading />
-//     }
-//     if (props.errMess) {
-//         return (
-//             <View><Text>{props.errMess}</Text></View>
-//         )
-//     }
-
-//     if (item) {
-//         return (
-
-//             // <Card containerStyle={{ padding: 0, height: 200, }} >
-//             //     <Card.Image source={{ uri: baseUrl + item.image }} >
-//             //         <View style={{ justifyContent: 'center', flex: 1 }}>
-//             //             <Text
-//             //                 style={{
-//             //                     color: 'white',
-//             //                     textAlign: 'center',
-//             //                     fontSize: 20
-//             //                 }}
-//             //             >
-//             //                 {item.name}
-//             //             </Text>
-//             //         </View>
-//             //     </Card.Image>
-//             //     <Text style={{ margin: 20 }}>{item.desciption}</Text>
-
-
-
-
-//             // </Card>
-
-//         );
-//     }
-//     return <View />;
-
-
-
-// }
-
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     const [status, setStatus] = useState({});
     const video = useRef(null);
 
-    // const [field, setField]= useState(FIELDS);
-    //  const featField = field.find((item) => item.featured);
-    // const fields = useSelector((state) => state.fields);
-    // const comments = useSelector((state) => state.comments);
-    // const partners = useSelector((state) => state.partners);
-    // const featField = fields.fieldsArray.find((item) => item.featured)
-    // const featComment = comments.commentsArray.find((item) => item.featured)
-    // const featPartner = partners.partnersArray.find((item) => item.featured);
+   
     const scaleValue = useRef(new Animated.Value(0)).current;
     const scaleAnimation = Animated.timing(scaleValue, {
         toVAlue: 1,
@@ -84,35 +29,19 @@ const HomeScreen = () => {
         scaleAnimation.start()
     })
 
-    // return (
-    //     // <Animated.ScrollView style={{ transform: [{ scale: scaleValue }] }}>
-    //     {/* <FeaturedItem
-    //             item={featField}
-    //             isLoading={fields.isLoading}
-    //             errMess={fields.errMess}
-    //         />
-    //         <FeaturedItem item={featComment} />
-    //         <FeaturedItem
-    //             item={featPartner}
-    //             isLoading={partners.isLoading}
-    //             errMess={partners.errMess}
-    //         /> */}
-
-    //     // </Animated.ScrollView>
-
-
-
-
-
-    // )
-
-
+    
 
     return (
 
         <View style={styles.backgroundVideo}>
             <ScrollView>
-                <View style={{ flex: 1, justifyContent:'center', alignSelf:'stretch' }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'stretch' ,marginTop:30 }}>
+                    <Button
+                        title='Press'
+                        onPress={() => navigation.navigate("Directory")}
+                        color='black'
+
+                    />
 
                     <Video
                         autoplay={true}
@@ -142,14 +71,7 @@ const HomeScreen = () => {
             </ScrollView >
 
 
-            {/* <View style={styles.buttons}>
-                <Button
-                    title={status.isPlaying ? 'Pause' : 'Play'}
-                    onPress={() =>
-                        status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
-                    }
-                />
-            </View> */}
+    
         </View >
 
 
@@ -178,7 +100,7 @@ const styles = StyleSheet.create({
         left: 0,
         bottom: 0,
         right: 0,
-      },
+    },
     // buttons: {
     //     flexDirection: 'row',
     //     justifyContent: 'center',

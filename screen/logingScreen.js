@@ -1,29 +1,43 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { CheckBox, Input, Button, Icon } from 'react-native-elements';
 import *as  SecureStore from 'expo-secure-store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import RegisterScreen from "./RegisterScreen";
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-const RegisterTab = () => {
-    return <ScrollView></ScrollView>
-}
+
+
 const Tab = createBottomTabNavigator();
 const LoginScreen = () => {
     const Options = {
-        activeBackgroundColor: 'lightgreen',
+        activeBackgroundColor: 'transparent',
         inactiveBackgroundColor: 'lightgreen',
-        activeTinColor: 'chartreuse',
+        activeTinColor: '',
         inactiveTinColor: 'lightgreen',
         labelStyle: { fontSize: 16 },
-        headerShown: false
+        headerShown: false,
+        backgroundColor: 'transparent',
+        borderTopWidth: 0,
+        elevation: 0,
 
     };
 
 
     return (
         <Tab.Navigator
-            tabBarOptions={Options}
+            tabBarOptions={{
+                style: {
+                    backgroundColor: 'transparent',
+                    borderTopWidth: 0,
+                    elevation: 0,
+                    activeBackgroundColor: 'green',
+                }
+
+            }}
+
+
         >
             <Tab.Screen
                 name='Sing-In'
@@ -49,6 +63,7 @@ const LoginScreen = () => {
             <Tab.Screen
                 name='Register'
                 component={RegisterScreen}
+                color='transparent'
                 options={{
                     tabaBarIcon: (props) => {
                         return (
@@ -70,21 +85,21 @@ const LoginScreen = () => {
     )
 }
 
-const LoginTab = ({ navigation }) => {
-    const [userName, setUserName] = useState('');
+const LoginTab = ({ navigation, route }) => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
 
     const handlelogin = () => {
-        console.log('userName: ', userName);
-        console.log('password:', password);
+        // console.log('userName: ', userName);
+        // console.log('password:', password);
         console.log('remember:', remember)
 
         if (remember) {
             SecureStore.setItemAsync(
                 'userinfo',
                 JSON.stringify({
-                    userName,
+                    email,
                     password
                 })
 
@@ -102,7 +117,7 @@ const LoginTab = ({ navigation }) => {
         SecureStore.getItemAsync('userinfo').then((userdata) => {
             const userinfo = JSON.parse(userdata);
             if (userinfo) {
-                setUserName(userinfo.userName);
+                setEmail(userinfo.email);
                 setPassword(userinfo.password);
                 setRemember(true);
             }
@@ -110,64 +125,87 @@ const LoginTab = ({ navigation }) => {
         });
     }, []);
 
+
+    // const handle = async () => {
+    //     const user = await signInWithEmailAndPassword(email, password);
+    //     if (user) {
+    //       navigation.navigate('HomeScreen')
+
+    //     }else{
+    //         console.log('faild')
+    //     }
+
+
+
+
+    // }
+
+    const handleSign = () => {
+        signInWithEmailAndPassword(auth,email,password)
+            .then((userCredential) => {
+                // User signed in successfully
+                const user = userCredential.user;
+                console.log(`User ${user.uid} signed in`);
+            })
+            .catch((error) => {
+                // Handle sign-in error
+                console.error(error);
+            });
+
+
+    }
+    const handlefunctions = () => {
+        handleSign();
+        handlelogin();
+
+    }
+
     return (
-        <View style={Styles.container}>
-            <Input
-                placeholder=" Username"
-                leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                onChangeText={(text) => setUserName(text)}
-                value={userName}
-                containerStyle={Styles.formInput}
-                leftIconContainerStyle={Styles.formIcon}
-            />
-            <Input
-                placeholder=" password"
-                leftIcon={{ type: 'font-awesome', name: 'key' }}
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-                containerStyle={Styles.formInput}
-                leftIconContainerStyle={Styles.formIcon}
-            />
-            <CheckBox
-                title='Remember Me'
-                center
-                checked={remember}
-                onPress={() => setRemember(!remember)}
-                containerStyle={Styles.formCheckbox}
-            />
-            <View style={Styles.formButton}>
-                <Button
-                    onPress={() => handlelogin()}
-                    title='Login'
-                    color='alice-blue'
-                    icon={
-                        <Icon
-                            name='sign-in'
-                            type='font-awesome'
-                            color='#fff'
-                            iconStyle={{ marginRight: 10 }}
-                        />
-                    }
-                    buttonStyle={{ backgroundColor: 'transparent' }}
+        <KeyboardAvoidingView
+            behavior="padding"
+        >
+            <View style={Styles.container}>
+                <Input
+                    placeholder=" Email"
+                    leftIcon={{ type: 'font-awesome', name: 'envelope-o' }}
+                    onChangeText={(text) => setEmail(text)}
+                    value={email}
+                    containerStyle={Styles.formInput}
+                    leftIconContainerStyle={Styles.formIcon}
                 />
-            </View>
-            <View style={Styles.formButton}>
-                <Button
-                    onPress={() => navigation.navigate('RegisterScreen')}
-                    title='Register'
-                    type="aliceblue"
-                    icon={
-                        <Icon
-                            name='user-plus'
-                            type='font-awesome'
-                            color='blue'
-                            iconStyle={{ marginRight: 10 }}
-                        />
-                    }
-                    titleStyle={{ color: 'blue' }}
+                <Input
+                    placeholder=" password"
+                    leftIcon={{ type: 'font-awesome', name: 'key' }}
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                    containerStyle={Styles.formInput}
+                    leftIconContainerStyle={Styles.formIcon}
                 />
+                <CheckBox
+                    title='Remember Me'
+                    center
+                    checked={remember}
+                    onPress={() => setRemember(!remember)}
+                    containerStyle={Styles.formCheckbox}
+                />
+                <View style={Styles.formButton}>
+                    <Button
+                        onPress={() => handlefunctions()}
+                        title='Login'
+                        color='transparent'
+                        icon={
+                            <Icon
+                                name='sign-in'
+                                type='font-awesome'
+                                color='#fff'
+                                iconStyle={{ marginRight: 10 }}
+                            />
+                        }
+                        buttonStyle={{ backgroundColor: 'transparent' }}
+                    />
+                </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
 
     )
 

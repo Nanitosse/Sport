@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './component/LoadingComponent';
+import Splashscreen from './screen/SplashScreen';
 
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
       >
         <PersistGate loading={<Loading />} persistor={persistor}>
           <NavigationContainer theme={MyTheme}>
+          
             <Main />
           </NavigationContainer>
         </PersistGate>

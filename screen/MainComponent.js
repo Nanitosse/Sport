@@ -1,5 +1,5 @@
 
-import { Platform, View, Image, StyleSheet, Text, Alert, ToastAndroid } from "react-native";
+import { Platform, View, Image, StyleSheet, Text, Alert, ToastAndroid, Animated } from "react-native";
 import { FIELDS } from "../shared/field";
 import DirectoryScreen from './directoryScreen';
 import FieldInfoScreen from "./fieldInfoScreen";
@@ -24,7 +24,10 @@ import LoginScreen from "./logingScreen";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import RegisterScreen from "./RegisterScreen";
 import React, { useLayoutEffect } from "react";
-import NetInfo from '@react-native-community/netinfo'
+import NetInfo from '@react-native-community/netinfo';
+import SplashScreen from "./SplashScreen";
+
+
 
 
 const Drawer = createDrawerNavigator();
@@ -88,19 +91,27 @@ const AboutNavigator = () => {
     )
 }
 
+
+
+
+
 const HomeNavigator = () => {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={{ headerShow: false }}
+            screenOptions={{ headerShown: false }}
+            initialRouteName= 'Splash'
         >
+
             <Stack.Screen
-                name='Ho'
+                name='Home'
                 component={HomeScreen}
-                options={{ title: '' }}
+                options={{ title: 'Home', headerShown: false }}
             />
-
-
+            <Stack.Screen
+                name="Splash" component={SplashScreen}
+                options={{ headerShown: false }}
+            />
         </Stack.Navigator>
     )
 }
@@ -140,31 +151,35 @@ const LoginNavigator = () => {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={{ headerShown: false }}
+            screenOptions={{ headerShown:false }}
         >
             <Stack.Screen
                 name='log-in'
                 component={LoginScreen}
-
-                options={({ navigation, route }) => ({
-                    headerTitle: getFocusedRouteNameFromRoute(route),
-                    headerLeft: () => (
-                        <Icon
-                            name={
-                                getFocusedRouteNameFromRoute(route) ===
-                                    { RegisterScreen }
-                                    ? 'user-plus'
-                                    : 'sign-in'
-
-                            }
-                            type='font-awesome'
-                            iconStyle={styles.stackIcon}
-                            onPress={() => navigation.toggleDrawer()}
-                        />
-                    )
+         
 
 
-                })}
+                options={
+
+                    ({ navigation, route }) => ({
+                        headerTitle: getFocusedRouteNameFromRoute(route),
+                        headerLeft: () => (
+                            <Icon
+                                name={
+                                    getFocusedRouteNameFromRoute(route) ===
+                                        { RegisterScreen }
+                                        ? 'user-plus'
+                                        : 'sign-in'
+
+                                }
+                                type='font-awesome'
+                                iconStyle={styles.stackIcon}
+                                onPress={() => navigation.toggleDrawer()}
+                            />
+                        )
+
+
+                    })}
             />
 
 
@@ -184,7 +199,7 @@ const DirectoryNavigator = () => {
             <Stack.Screen
                 name='Fields'
                 component={DirectoryScreen}
-                options={{ title: 'fields' }}
+                options={{ title: 'fields', headerShown: false }}
             />
             <Stack.Screen
                 name='FieldInfo'
@@ -218,8 +233,6 @@ const CustomDrawerContent = (props) => (
 
 
 const Main = () => {
-    // const [fields, setFields] = useState(FIELDS);
-    // const [selectedFieldId, setSelectedFieldId] = useState();
     const dispatch = useDispatch();
     useEffect(
         () => {
@@ -230,40 +243,21 @@ const Main = () => {
     );
 
     useEffect(() => {
-        NetInfo.fetch().then((connectionInfo)=>{
-            Platform.OS==='ios'
-            ? Alert.alert(
-                'initial Network Connectivity type:',
-                connectionInfo.type
-            )
-            : ToastAndroid.show(
-                'initial Network Connectivity Type:'+
-                connectionInfo.type,
-                ToastAndroid.LONG
-            );
-        })
 
-       async function Hello(){
+        async function Hello() {
             const connectionInfo = await NetInfo.fetch();
             if (Platform.OS === 'ios') {
-              Alert.alert(
-                'initial Network Connectivity type:',
-                connectionInfo.type
-              );
+                Alert.alert(
+                    'initial Network Connectivity type:',
+                    connectionInfo.type
+                );
             } else {
-              ToastAndroid.show(
-                'initial Network Connectivity Type:' + connectionInfo.type,
-                ToastAndroid.LONG
-              );
+                ToastAndroid.show(
+                    'initial Network Connectivity Type:' + connectionInfo.type,
+                    ToastAndroid.LONG
+                );
             }
-          } 
-          
-          Hello();
-          console.log("we got it ")
-          
-          
-
-
+        }
 
         const unsubscribeNetInfo = NetInfo.addEventListener(
             (connectionInfo) => {
@@ -294,24 +288,36 @@ const Main = () => {
         }
         Platform.OS === 'ios'
             ? Alert.alert('connection change:', connectionMsg)
-            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG)
+            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG);
 
-    }
+    };
+
+
 
     return (
         <View
             style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}
         >
             <Drawer.Navigator
-                initialRouteName='Home'
+                initialRouteName='Splash'
                 drawerStyle={{ backgroundColor: '#CEC8FF' }}
                 drawerContent={CustomDrawerContent}
+                screenOptions={{
+                    headerShown: ({ navigation, route }) => {
+                        route.name === 'Splash' ? false : true
+
+                    }
+                }}
+
+
             >
                 <Drawer.Screen
                     name='Home'
                     component={HomeNavigator}
-                    options={{ title: 'Home' }}
+                    options={{headerShown:false}}   
+
                 />
+               
                 <Drawer.Screen
                     name='Directory'
                     component={DirectoryNavigator}
@@ -327,34 +333,14 @@ const Main = () => {
                     component={FavoritesNavigator}
                     options={{
                         title: 'My Favorites',
-                        drawerIcon: ({ color }) => (
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                size={24}
-                                iconStyle={{ width: 24 }}
-                                color={color}
-                            />
-
-                        )
+                      
                     }}
 
                 />
                 <Drawer.Screen
                     name='login'
                     component={LoginNavigator}
-                    options={{
-
-                        drawerIcon: ({ color }) => (
-                            <Icon
-                                name='sign-in'
-                                type="font-awesome"
-                                size={24}
-                                conStyle={{ width: 24 }}
-                                color={color}
-                            />
-                        )
-                    }}
+                    
                 />
                 <Drawer.Screen
                     name='Contact'
@@ -374,6 +360,9 @@ const Main = () => {
     )
 
 }
+
+
+
 
 const styles = StyleSheet.create({
     drawerHeader: {
@@ -397,6 +386,5 @@ const styles = StyleSheet.create({
     }
 
 });
-
 
 export default Main;

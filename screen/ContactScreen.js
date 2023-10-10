@@ -1,7 +1,7 @@
 import { Text, View, Modal, StyleSheet, Alert } from "react-native"
 import { useState } from "react";
-import { Input, Button, Icon } from "react-native-elements";
-import * as MailComposer from 'expo-mail-composer'
+import { Input, Button, Icon, Card } from "react-native-elements";
+import * as MailComposer from 'expo-mail-composer';
 
 
 
@@ -23,8 +23,8 @@ const ContactScreen = () => {
     }
 
     const print = () => {
-        Alert.alert('pleas enter your contact')
-           
+        Alert.alert(' contact-US')
+
     }
 
     const resetForm = () => {
@@ -66,57 +66,38 @@ const ContactScreen = () => {
                 onShow={() => print()}
             >
                 <View style={{ backgroundColor: 'transparent', flex: 1 }}>
-                    <View style={{ backgroundColor: 'white', borderRadius: 10, flex: 1, marginTop: 90 }}>
-                        <Input
-                            placeholder="Full-Name"
-                            leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                            onChangeText={(name) => setNAme(name)}
-                            value={name}
-                        />
-                        <Input
-                            placeholder="Phone Number"
-                            // leftIcon={{ type: 'font-awesome', name: 'mobile-o' }}
-                            onChangeText={(phone) => setPhone(phone)}
-                            value={phone}
-                        />
-                        <Input
-                            placeholder="Email"
-                            leftIcon={{ type: 'font-awesome', name: 'envelope-o' }}
-                            onChangeText={(email) => setEmail(email)}
-                            value={email}
-                        />
-                        <Input
-                            placeholder="Address"
-                            leftIcon={{ type: 'font-awesome', name: 'address-card' }}
-                            onChangeText={(address) => setAddress(address)}
-                            value={address}
-                        />
+                    <View style={{ backgroundColor: 'transparent', borderRadius: 10, flex: 1, marginTop: 90 }}>
+                        <Card
+
+                        >
+                            <Card.Title>Contact-US</Card.Title>
+                            <Text>Address</Text>
+                            <Text>State:NJ</Text>
+                            <Text>City: JerseyCity</Text>
+                            <Text>Complexe: </Text>
+                            <Text>Phone-Number: 2019360720</Text>
+                            <Text>Email: nanitosse@gmail.com</Text>
+                        </Card>
                         <View>
                             <Button
-                                onPress={() => setModal(false)}
-                                style={{ color: 'blue', justifyContent: 'center', marginTop: 25, padding: 15 }}
+                                onPress={() => {
+                                    setModal(false)
+                                }}
+                                style={{ color: 'transparent', justifyContent: 'center', marginTop: 10, padding: 15 }}
                                 title='Cancel'
                             />
                         </View>
                         <View>
                             <Button
-                                onPress={() => {
-                                    handelSubmit();
-                                    resetForm();
-                                }}
-                                style={{ color: 'blue', justifyContent: 'center', marginTop: 25, padding: 15 }}
-                                title='Submit'
-                            />
-                            <Button
                                 onPress={() => sendMail()}
-                                buttonStyle={{ backgroundColor: 'blue', margin: 40 }}
+                                buttonStyle={{ backgroundColor: 'transparent', marginTop:-10 }}
                                 title='Send Email'
                                 icon={
                                     <Icon
                                         name='envelope-o'
                                         type='font-awesome'
-                                        color='#fff'
-                                        iconStyle={{marginright:10}}
+                                        color='transparent'
+                                        iconStyle={{ marginright: 10, }}
 
                                     />
                                 }
