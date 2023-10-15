@@ -2,12 +2,7 @@ import { Text, View, Animated, StyleSheet, Button, ScrollView, SafeAreaView } fr
 import { Tile } from '@rneui/themed';
 
 
-
-
-
-
-
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
     <>
       <View style={{ alignItems: 'center' }}>
@@ -18,6 +13,7 @@ const HomeScreen = () => {
             title='Weights Training'
             caption=" Muscle Mass and Power"
             height={230}
+            onPress={()=>navigation.navigate('CalisScreen')}
           />
           <Tile
             imageSrc={require('../assets/images/calisImg.jpg')}

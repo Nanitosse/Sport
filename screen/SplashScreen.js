@@ -10,7 +10,6 @@ const SplashScreen = ({navigation}) => {
             navigation.navigate('Home')
         } ,8000)
 
-
     },[])
 
     return (

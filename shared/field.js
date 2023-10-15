@@ -16,7 +16,7 @@ export const FIELDS = [
     {
        id:2,
        name:'nutrutions',
-       image:require('../assets/images/nutrution.jpg'),
+       image:require('../assets/images/nutrition.jpg'),
        description: 'food intake' ,
        
  

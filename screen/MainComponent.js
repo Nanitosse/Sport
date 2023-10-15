@@ -26,6 +26,8 @@ import RegisterScreen from "./RegisterScreen";
 import React, { useLayoutEffect } from "react";
 import NetInfo from '@react-native-community/netinfo';
 import SplashScreen from "./SplashScreen";
+import CalisScreen from './CalisScreen';
+
 
 
 
@@ -100,7 +102,7 @@ const HomeNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
-            initialRouteName= 'Splash'
+            initialRouteName='Splash'
         >
 
             <Stack.Screen
@@ -111,6 +113,11 @@ const HomeNavigator = () => {
             <Stack.Screen
                 name="Splash" component={SplashScreen}
                 options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name='calisthenics' 
+                component={CalisScreen}
+                options={{title: 'Calis',headerShown: false }}
             />
         </Stack.Navigator>
     )
@@ -151,12 +158,12 @@ const LoginNavigator = () => {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={{ headerShown:false }}
+            screenOptions={{ headerShown: false }}
         >
             <Stack.Screen
                 name='log-in'
                 component={LoginScreen}
-         
+
 
 
                 options={
@@ -314,10 +321,10 @@ const Main = () => {
                 <Drawer.Screen
                     name='Home'
                     component={HomeNavigator}
-                    options={{headerShown:false}}   
+                    options={{ headerShown: false }}
 
                 />
-               
+
                 <Drawer.Screen
                     name='Directory'
                     component={DirectoryNavigator}
@@ -333,14 +340,14 @@ const Main = () => {
                     component={FavoritesNavigator}
                     options={{
                         title: 'My Favorites',
-                      
+
                     }}
 
                 />
                 <Drawer.Screen
                     name='login'
                     component={LoginNavigator}
-                    
+
                 />
                 <Drawer.Screen
                     name='Contact'
