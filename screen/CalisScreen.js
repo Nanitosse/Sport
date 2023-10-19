@@ -1,35 +1,40 @@
 
 import React from 'react';
-import {View,TouchableOpacity,Text} from 'react-native';
-import Video from 'react-native-video';
-import  video from '../assets/images/videoplayback1.mp4'; 
+import { View,  StyleSheet } from 'react-native';
+import { Video } from 'expo-av';
+import video from '../assets/images/videoplayback.mp4';
 
 
 
-const CalisScreen = ()=>{
-    const VideoPlayer= React.useRef();
+const CalisScreen = () => {
+    
 
-    const FullScreen = ()=>{
-        if(VideoPlayer.current){
-            VideoPlayer.current.presentFullscreenPlayer();
-
-        }
-    }
-
-    return(
-        <View>
+    return (
+        <View style={styles.container}>
             <Video
-               ref={VideoPlayer}
-               source={video}
-               style={styles.backgroundVideo}
-               repeat={true}
-
+                source={video}
+                isLooping
+                resizeMode='cover'
+                useNativeControls
+                style={styles.video}
             />
-            <TouchableOpacity onPress={FullScreen}>
-                <Text>Go Full Screen</Text>
-            </TouchableOpacity>
+          
         </View>
     )
 }
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      
+    },
+    video: {
+      width: 350,
+      height: 550,
+    },
+  });
+  
+
 
 export default CalisScreen;
