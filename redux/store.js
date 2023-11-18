@@ -1,5 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import {fieldsReducer} from '../features/Fields/fieldsSlice'
+import {imagesReducer} from '../features/IMAGES/imagesSlice'
 import { commentsReducer } from '../features/comments/commentsSlice';
 import { partnersReducer } from '../features/partners/partnersSlice';
 import { favoritesReducer } from '../features/favorite/favoriteSlice'; 
@@ -24,18 +24,23 @@ const config= {
 
 export const store = configureStore({
     reducer: persistCombineReducers(config,{
-        fields: fieldsReducer,
+        images: imagesReducer,
         comments: commentsReducer,
         partners: partnersReducer,
         favorites: favoritesReducer,
     }),
-    middleware: (getDefaultMiddleware)=> 
-       getDefaultMiddleware({
-        serializableCheck:{
-            ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST,PURGE, REGISTER]
-        }
+    // middleware: (...getDefaultMiddleware)=> 
+    //    getDefaultMiddleware({
+    //     serializableCheck:{
+    //         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST,PURGE, REGISTER]
+    //     }
 
-       })
+    //    })
+    middleware: [...getDefaultMiddleware({
+        serializableCheck: {
+          ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      })],
 
     
 
