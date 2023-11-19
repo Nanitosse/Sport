@@ -1,8 +1,8 @@
 
 import { Platform, View, Image, StyleSheet, Text, Alert, ToastAndroid, Animated } from "react-native";
-import { FIELDS } from "../shared/field";
-import DirectoryScreen from './directoryScreen';
-import FieldInfoScreen from "./fieldInfoScreen";
+// import { FIELDS } from "../shared/field";
+// import DirectoryScreen from './directoryScreen';
+// import FieldInfoScreen from "./fieldInfoScreen";
 import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
@@ -14,9 +14,9 @@ import { useState } from "react";
 import ReservationScreen from "./ReservationScreen";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchFields } from "../features/Fields/fieldsSlice";
-import { fetchComments } from "../features/comments/commentsSlice";
-import { fetchPartners } from '../features/partners/partnersSlice';
+// import { fetchFields } from "../features/Fields/fieldsSlice";
+// import { fetchComments } from "../features/comments/commentsSlice";
+// import { fetchPartners } from '../features/partners/partnersSlice';
 import FavoritesScreen from "./favoritesScreen";
 import { Icon } from "react-native-elements";
 import Loading from "../component/LoadingComponent";
@@ -27,6 +27,7 @@ import React, { useLayoutEffect } from "react";
 import NetInfo from '@react-native-community/netinfo';
 import SplashScreen from "./SplashScreen";
 import CalisScreen from './CalisScreen';
+import NutriScreen from "./nutritionScreen";
 
 
 
@@ -117,7 +118,12 @@ const HomeNavigator = () => {
             <Stack.Screen
                 name='calisthenics' 
                 component={CalisScreen}
-                options={{title: 'Calis',headerShown: false }}
+                options={{title: 'BodyWeight',headerShown: true }}
+            />
+            <Stack.Screen
+                name='Intake' 
+                component={NutriScreen}
+                options={{title: 'Nutrition',headerShown: true }}
             />
         </Stack.Navigator>
     )
@@ -195,34 +201,34 @@ const LoginNavigator = () => {
 
 }
 
-const DirectoryNavigator = () => {
-    const Stack = createStackNavigator();
+// const DirectoryNavigator = () => {
+//     const Stack = createStackNavigator();
 
-    return (
-        <Stack.Navigator
-            initialRouteName="Directory"
-            screenOptions={{ headerShow: false }}
-        >
-            <Stack.Screen
-                name='Fields'
-                component={DirectoryScreen}
-                options={{ title: 'fields', headerShown: false }}
-            />
-            <Stack.Screen
-                name='FieldInfo'
-                component={FieldInfoScreen}
-                options={({ route }) => ({
-                    title: route.params.item.name
+//     return (
+//         <Stack.Navigator
+//             initialRouteName="Directory"
+//             screenOptions={{ headerShow: false }}r
+//         >
+//             <Stack.Screen
+//                 name='Fields'
+//                 component={DirectoryScreen}
+//                 options={{ title: 'fields', headerShown: false }}
+//             />
+//             {/* <Stack.Screen
+//                 name='FieldInfo'
+//                 component={FieldInfoScreen}
+//                 options={({ route }) => ({
+//                     title: route.params.item.name
 
-                })
+//                 })
 
-                }
-            />
+//                 }
+//             /> */}
 
-        </Stack.Navigator>
-    )
+//         </Stack.Navigator>
+//     )
 
-}
+// }
 
 const CustomDrawerContent = (props) => (
 
@@ -241,13 +247,13 @@ const CustomDrawerContent = (props) => (
 
 const Main = () => {
     const dispatch = useDispatch();
-    useEffect(
-        () => {
-            dispatch(fetchFields());
-            dispatch(fetchComments());
-            dispatch(fetchPartners());
-        }, [dispatch]
-    );
+    // useEffect(
+    //     () => {
+    //         dispatch(fetchFields());
+    //         dispatch(fetchComments());
+    //         dispatch(fetchPartners());
+    //     }, [dispatch]
+    // );
 
     useEffect(() => {
 
@@ -325,11 +331,11 @@ const Main = () => {
 
                 />
 
-                <Drawer.Screen
+                {/* <Drawer.Screen
                     name='Directory'
                     component={DirectoryNavigator}
                     options={{ title: 'Directory' }}
-                />
+                /> */}
                 <Drawer.Screen
                     name='ReserveTraining'
                     component={ReservationNavigator}
