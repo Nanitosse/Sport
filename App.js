@@ -1,19 +1,22 @@
-// import { StatusBar } from 'expo-status-bar';
+
+import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import Main from "./screen/MainComponent";
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { Provider } from 'react-redux'
+import { Provider,useSelector } from 'react-redux'
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './component/LoadingComponent';
 import Splashscreen from './screen/SplashScreen';
 
 
+
 export default function App() {
+  
+
   return (
 
     <Provider store={store}>
-
       <ImageBackground
         source={require('./assets/images/soccer.png')}
         style={{

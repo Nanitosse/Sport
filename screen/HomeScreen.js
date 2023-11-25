@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../component/LoadingComponent';
 import React, { useState } from 'react';
 
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const images = useSelector(state => state.images)
@@ -16,8 +17,10 @@ const HomeScreen = () => {
 
   useEffect(() => {
     // dispatch(fetchImages());
-    const imageId='ObjectId("6526fe7ca646e5298058f84c")'
+    const imageId = "652224f5d51f3736c92cd29d"
+    console.log('Dispatching action...');
     dispatch(fetchImageById(imageId));
+
 
   }, []);
   if (images.isLoading) {
@@ -27,81 +30,31 @@ const HomeScreen = () => {
       <View><Text>{images.errMess}</Text></View>
     )
   }
+  console.log('Images Array', images.imagesArray);
 
 
-  
   return (
     <View style={{ alignItems: 'center' }}>
       <ScrollView style={{ paddingVertical: 10 }}>
-        {images.imagesArray.map((item, index) => (
-          <Tile
-            key={item._id} 
-            imageSrc={{ uri: `http://172.20.10.4:3000/${item.url}` }}
-            featured
-            title={item.title}
-            height={230}
-            onPress={() => navigation.navigate('Intake')}
-          />
-        ))}
+        {images.imagesArray.map((item, index) => {
+          console.log('Item ID:', item._id); // Add this line for debugging
+          return (
+            <Tile
+              key={item._id} 
+              imageSrc={{uri: item._id ? `http://172.20.10.4:3000/images/${item._id}` : 'fallback-url'}}
+              featured
+              title={item.title}
+              height={230}
+              onPress={() => navigation.navigate('Intake')}
+            />
+          );
+        })}
       </ScrollView>
     </View>
   );
 
 }
-// const HomeScreen = () => {
-//   const navigation = useNavigation();
-//   const [images, setImages] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null);
 
-//   useEffect(() => {
-//     const fetchImages = async () => {
-//       try {
-//         const response = await fetch('http://localhost:3000/images/');
-//         if (!response.ok) {
-//           throw new Error('Network request failed');
-//         }
-//         const data = await response.json();
-//         setImages(data);
-//         setIsLoading(false);
-//         setError(null);
-//       } catch (error) {
-//         console.error('Error fetching images:', error);
-//         setIsLoading(false);
-//         setError('Failed to fetch images');
-//       }
-//     };
-
-//     fetchImages();
-//   }, []);
-
-//   if (isLoading) {
-//     return <Loading />;
-//   } else if (error) {
-//     return (
-//       <View>
-//         <Text>{error}</Text>
-//       </View>
-//     );
-//   }
-
-//   return (
-//     <View style={{ alignItems: 'center' }}>
-//       <ScrollView style={{ paddingVertical: 10 }}>
-//         {images.map((item, index) => (
-//           <Tile
-//             key={item._id}
-//             imageSrc={{ uri: `http://localhost:3000/${item.url}` }}
-//             featured
-//             title={item.title}
-//             height={230}
-//             onPress={() => navigation.navigate('Intake')}
-//           />
-//         ))}
-//       </ScrollView>
-//     </View>
-//   );
-// };
 
 
 

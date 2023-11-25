@@ -14,7 +14,7 @@ const CalisScreen = () => {
             <Video
                 source={video}
                 isLooping
-                resizeMode='cover'
+                resizeMode="cover"
                 useNativeControls
                 style={styles.video}
             />
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
       
     },
     video: {
-      width: 350,
-      height: 550,
+      width: 355,
+      height: 600,
     },
   });
   

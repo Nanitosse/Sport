@@ -10,6 +10,8 @@ npm-debug.*
 *.orig.*
 web-build/
 firebase.js
+package-lock.json/
+gitignore/
 
 # macOS
 .DS_Store
