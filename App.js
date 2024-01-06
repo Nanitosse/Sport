@@ -8,6 +8,7 @@ import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './component/LoadingComponent';
 import Splashscreen from './screen/SplashScreen';
+import { initializeApp, getAnalytics } from '@react-native-firebase/app';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCDnmwhgd3sGVQmJxfUBpPeR24IsZCXYic",
@@ -20,7 +21,8 @@ const firebaseConfig = {
   
 };
 
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 
 
