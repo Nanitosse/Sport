@@ -1,8 +1,9 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import {imagesReducer} from '../features/IMAGES/imagesSlice'
+// import {imagesReducer} from '../features/IMAGES/imagesSlice'
 import { commentsReducer } from '../features/comments/commentsSlice';
 import { partnersReducer } from '../features/partners/partnersSlice';
 import { favoritesReducer } from '../features/favorite/favoriteSlice'; 
+import { imageReducer } from '../features/IMAGES/imagesSlice';
 import{
     persistStore,
     persistCombineReducers,
@@ -24,7 +25,7 @@ const config= {
 
 export const store = configureStore({
     reducer: persistCombineReducers(config,{
-        images: imagesReducer,
+        image: imageReducer,
         comments: commentsReducer,
         partners: partnersReducer,
         favorites: favoritesReducer,

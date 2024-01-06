@@ -9,6 +9,20 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './component/LoadingComponent';
 import Splashscreen from './screen/SplashScreen';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCDnmwhgd3sGVQmJxfUBpPeR24IsZCXYic",
+  authDomain: "sportbase-481f3.firebaseapp.com",
+  projectId: "sportbase-481f3",
+  storageBucket: "sportbase-481f3.appspot.com",
+  messagingSenderId: "755763005725",
+  appId: "1:755763005725:web:978395134805f5e9dcf9f4",
+  measurementId: "G-W3T0MNWMVB"
+  
+};
+
+initializeApp(firebaseConfig);
+
+
 
 
 export default function App() {
